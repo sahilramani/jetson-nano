@@ -94,7 +94,6 @@ help()
 
 write_boot_script_step2()
 {
-    sed -i '$ d' ~/.bashrc
     echo "$SCRIPTPATH $OPTIONS -2" >> ~/.bashrc
     echo "" >> ~/.bashrc
 }
@@ -108,7 +107,7 @@ write_boot_script_step3()
 
 remove_boot_script()
 {
-    sudo update-rc.d jetsonsetup remove
+    sed -i '$ d' ~/.bashrc
 }
 
 main()
@@ -125,7 +124,7 @@ main()
     while true; do
         case "$1" in 
             -1) 
-                INSTALL_STEP=1
+                if [$INSTALL_STEP -le "1"] INSTALL_STEP=1
                 ;;
             -2) 
                 INSTALL_STEP=2
