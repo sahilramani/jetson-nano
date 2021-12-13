@@ -32,7 +32,7 @@ SCRIPTPATH="$(realpath $0)"
 setup_step1()
 {
     sudo apt -y update && sudo apt -y upgrade
-    sudo apt install python3-pip python-pip
+    sudo apt install -y python3-pip python-pip
 }
 
 setup_step2()
@@ -43,12 +43,13 @@ setup_step2()
     wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh .
     chmod a+x Miniforge3-Linux-aarch64.sh
     ./Miniforge3-Linux-aarch64.sh
+    conda config --set auto_activate_base false
 }
 
 setup_step3()
 {
     conda config --set auto_activate_base false
-    sudo apt install python3-h5py libhdf5-serial-dev hdf5-tools libpng-dev libfreetype6-dev
+    sudo apt install -y python3-h5py libhdf5-serial-dev hdf5-tools libpng-dev libfreetype6-dev
     conda create -n jupyter python=3.6
     conda activate jupyter
     conda install matplotlib pandas numpy pillow scipy tqdm scikit-image scikit-learn seaborn cython h5py jupyter ipywidgets -c conda-forge
@@ -72,7 +73,7 @@ install_pytorch()
 install_torchvision()
 {
     setup_install_folder
-    sudo apt-get install libjpeg-dev zlib1g-dev libpython3-dev libavcodec-dev libavformat-dev libswscale-dev
+    sudo apt-get install -y libjpeg-dev zlib1g-dev libpython3-dev libavcodec-dev libavformat-dev libswscale-dev
     git clone --branch v0.11.1 https://github.com/pytorch/vision torchvision
     cd torchvision
     export BUILD_VERSION=0.11.1
@@ -94,13 +95,15 @@ help()
 write_boot_script_step2()
 {
     sed -i '$ d' ~/.bashrc
-    echo "$SCRIPTPATH -2 $OPTIONS" >> ~/.bashrc
+    echo "$SCRIPTPATH $OPTIONS -2" >> ~/.bashrc
+    echo "" >> ~/.bashrc
 }
 
 write_boot_script_step3()
 {
     sed -i '$ d' ~/.bashrc
-    echo "$SCRIPTPATH -3 $OPTIONS" >> ~/.bashrc
+    echo "$SCRIPTPATH $OPTIONS -3" >> ~/.bashrc
+    echo "" >> ~/.bashrc
 }
 
 remove_boot_script()
