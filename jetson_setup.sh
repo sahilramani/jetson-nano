@@ -124,13 +124,13 @@ main()
     while true; do
         case "$1" in 
             -1) 
-                if [$INSTALL_STEP -le "1"] INSTALL_STEP=1
+                if [$INSTALL_STEP -le "1"]; then INSTALL_STEP=1 fi 
                 ;;
             -2) 
-                INSTALL_STEP=2
+                if [$INSTALL_STEP -le "2"]; then INSTALL_STEP=2 fi
                 ;;
             -3) 
-                INSTALL_STEP=3
+                if [$INSTALL_STEP -le "3"]; then INSTALL_STEP=3 fi
                 ;;
             -h )
                 help
