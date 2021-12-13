@@ -94,14 +94,14 @@ help()
 
 write_boot_script_step2()
 {
-    echo "$SCRIPTPATH $OPTIONS -2" >> ~/.bashrc
+    echo "$SCRIPTPATH -2 $OPTIONS" >> ~/.bashrc
     echo "" >> ~/.bashrc
 }
 
 write_boot_script_step3()
 {
     sed -i '$ d' ~/.bashrc
-    echo "$SCRIPTPATH $OPTIONS -3" >> ~/.bashrc
+    echo "$SCRIPTPATH -3 $OPTIONS" >> ~/.bashrc
     echo "" >> ~/.bashrc
 }
 
