@@ -49,7 +49,8 @@ setup_step3()
 {
     conda config --set auto_activate_base false
     sudo apt install -y python3-h5py libhdf5-serial-dev hdf5-tools libpng-dev libfreetype6-dev
-    conda create -n jupyter python=3.6
+    conda create -y -n jupyter python=3.6
+    conda init bash
     conda activate jupyter
     conda install -y matplotlib pandas numpy pillow scipy tqdm scikit-image scikit-learn seaborn cython h5py jupyter ipywidgets -c conda-forge
 }
@@ -65,7 +66,7 @@ install_pytorch()
 {
     setup_install_folder
     wget https://nvidia.box.com/shared/static/fjtbno0vpo676a25cgvuqc1wty0fkkg6.whl -O torch-1.10.0-cp36-cp36m-linux_aarch64.whl
-    sudo apt-get install libopenblas-base libopenmpi-dev
+    sudo apt-get install -y libopenblas-base libopenmpi-dev
     pip install torch-1.10.0-cp36-cp36m-linux_aarch64.whl
 }
 
