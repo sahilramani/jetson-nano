@@ -61,12 +61,18 @@ setup_install_folder()
     conda activate jupyter
 }
 
+teardown_install_folder()
+{
+    conda deactivate
+}
+
 install_pytorch()
 {
     setup_install_folder
     wget https://nvidia.box.com/shared/static/fjtbno0vpo676a25cgvuqc1wty0fkkg6.whl -O torch-1.10.0-cp36-cp36m-linux_aarch64.whl
     sudo apt-get install -y libopenblas-base libopenmpi-dev
     pip install torch-1.10.0-cp36-cp36m-linux_aarch64.whl
+    teardown_install_folder
 }
 
 install_torchvision()
@@ -77,12 +83,14 @@ install_torchvision()
     cd torchvision
     export BUILD_VERSION=0.11.1
     python setup.py install --user
+    teardown_install_folder
 }
 
 install_tensorflow()
 {
     setup_install_folder
     pip3 install --pre --extra-index-url https://developer.download.nvidia.com/compute/redist/jp/v46 tensorflow
+    teardown_install_folder
 }
 
 help()
@@ -181,17 +189,17 @@ main()
             ;;
     esac
 
-    if [ INSTALL_PYTORCH = true ]; then 
+    if [ "$INSTALL_PYTORCH" = true ]; then 
         echo "Setting up PyTorch.."
         install_pytorch
     fi
 
-    if [ INSTALL_TORCHVISION = true ]; then 
+    if [ "$INSTALL_TORCHVISION" = true ]; then 
         echo "Setting up Torchvision.."
         install_torchvision
     fi
 
-    if [ INSTALL_TENSORFLOW = true ]; then 
+    if [ "$INSTALL_TENSORFLOW" = true ]; then 
         echo "Setting up TensorFlow.."
         install_tensorflow
     fi
