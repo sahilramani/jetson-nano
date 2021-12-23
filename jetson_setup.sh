@@ -55,7 +55,10 @@ setup_step3()
 
 setup_install_folder()
 {
-    [ ! -d ~/install] && mkdir -p ~/install 
+    if [ ! -d ~/install ] 
+    then
+        mkdir -p ~/install 
+    fi
     cd ~/install
     eval "$(conda shell.bash hook)"
     conda activate jupyter
