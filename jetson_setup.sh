@@ -50,15 +50,14 @@ setup_step3()
     conda config --set auto_activate_base false
     sudo apt install -y python3-h5py libhdf5-serial-dev hdf5-tools libpng-dev libfreetype6-dev
     conda create -y -n jupyter python=3.6
-    conda init bash
-    conda activate jupyter
-    conda install -y matplotlib pandas numpy pillow scipy tqdm scikit-image scikit-learn seaborn cython h5py jupyter ipywidgets -c conda-forge
+    conda install -n jupyter -y matplotlib pandas numpy pillow scipy tqdm scikit-image scikit-learn seaborn cython h5py jupyter ipywidgets -c conda-forge
 }
 
 setup_install_folder()
 {
     [ ! -d ~/install] && mkdir -p ~/install 
     cd ~/install
+    eval "$(conda shell.bash hook)"
     conda activate jupyter
 }
 
