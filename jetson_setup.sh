@@ -111,7 +111,6 @@ help()
 write_boot_script_step2()
 {
     echo "$SCRIPTPATH -2 $OPTIONS" >> ~/.bashrc
-    echo "" >> ~/.bashrc
 }
 
 write_boot_script_step3()
