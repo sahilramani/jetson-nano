@@ -93,9 +93,16 @@ install_tensorflow()
     teardown_install_folder
 }
 
+install_jupyterlab()
+{
+    setup_install_folder
+    conda install -y jupyterlab
+    teardown_install_folder
+}
+
 help()
 {
-    echo $SCRIPTPATH [-123h] [--pytorch] [--torchvision] [--tensorflow]
+    echo $SCRIPTPATH [-123h] [--pytorch] [--torchvision] [--tensorflow] [--jupyterlab]
 }
 
 write_boot_script_step2()
@@ -131,6 +138,7 @@ main()
     INSTALL_PYTORCH=false
     INSTALL_TORCHVISION=false
     INSTALL_TENSORFLOW=false
+    INSTALL_JUPYTERLAB=false
     INSTALL_STEP=0
     while true; do
         case "$1" in 
@@ -164,6 +172,9 @@ main()
                 ;;
             --tensorflow)
                 INSTALL_TENSORFLOW=true
+                ;;
+            --jupyterlab)
+                INSTALL_JUPYTERLAB=true
                 ;;
             -- ) break ;;
         esac
@@ -202,6 +213,11 @@ main()
     if [ "$INSTALL_TENSORFLOW" = true ]; then 
         echo "Setting up TensorFlow.."
         install_tensorflow
+    fi
+
+    if [ "$INSTALL_JUPYTERLAB" = true ]; then 
+        echo "Setting up JupyterLab.."
+        install_jupyterlab
     fi
 }
 
