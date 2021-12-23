@@ -111,7 +111,7 @@ main()
 {
     OPTIONS=$(getopt -o 123h: --long pytorch,torchvision,tensorflow -n "$0" -- "$@")
 
-    if ["$?" -ne "0"]
+    if [ "$?" -ne "0" ]
     then
         help
         exit 1
