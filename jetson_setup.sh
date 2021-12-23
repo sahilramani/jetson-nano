@@ -43,7 +43,6 @@ setup_step2()
     wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-aarch64.sh .
     chmod a+x Miniforge3-Linux-aarch64.sh
     ./Miniforge3-Linux-aarch64.sh
-    conda config --set auto_activate_base false
 }
 
 setup_step3()
@@ -52,7 +51,7 @@ setup_step3()
     sudo apt install -y python3-h5py libhdf5-serial-dev hdf5-tools libpng-dev libfreetype6-dev
     conda create -n jupyter python=3.6
     conda activate jupyter
-    conda install matplotlib pandas numpy pillow scipy tqdm scikit-image scikit-learn seaborn cython h5py jupyter ipywidgets -c conda-forge
+    conda install -y matplotlib pandas numpy pillow scipy tqdm scikit-image scikit-learn seaborn cython h5py jupyter ipywidgets -c conda-forge
 }
 
 setup_install_folder()
@@ -89,7 +88,6 @@ install_tensorflow()
 help()
 {
     echo $SCRIPTPATH [-123h] [--pytorch] [--torchvision] [--tensorflow]
-    exit 1
 }
 
 write_boot_script_step2()
@@ -100,7 +98,6 @@ write_boot_script_step2()
 
 write_boot_script_step3()
 {
-    sed -i '$ d' ~/.bashrc
     echo "$SCRIPTPATH -3 $OPTIONS" >> ~/.bashrc
     echo "" >> ~/.bashrc
 }
@@ -113,6 +110,13 @@ remove_boot_script()
 main()
 {
     OPTIONS=$(getopt -o 123h: --long pytorch,torchvision,tensorflow -n "$0" -- "$@")
+
+    if ["$?" -ne "0"]
+    then
+        help
+        exit 1
+    fi
+
     eval set -- "$OPTIONS"
 
     echo " [  Jetson Nano Setup v0.1  ]"
@@ -143,6 +147,7 @@ main()
                 ;;
             -h )
                 help
+                exit 0
                 ;;
             --pytorch) 
                 INSTALL_PYTORCH=true
@@ -165,15 +170,15 @@ main()
     case $INSTALL_STEP in
         1)
             echo "Setting up step 1.."
-            setup_step1 &&  write_boot_script_step2 && sudo reboot
+            setup_step1 && write_boot_script_step2 && sudo reboot
             ;;
         2) 
             echo "Setting up step 2.."
-            setup_step2 && write_boot_script_step3 && sudo reboot
+            remove_boot_script && setup_step2 && write_boot_script_step3 && sudo reboot
             ;;
         3)
             echo "Setting up step 3.."
-            setup_step3 && remove_boot_script
+            remove_boot_script && setup_step3
             ;;
     esac
 
