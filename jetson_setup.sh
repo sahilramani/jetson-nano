@@ -99,7 +99,6 @@ write_boot_script_step2()
 write_boot_script_step3()
 {
     echo "$SCRIPTPATH -3 $OPTIONS" >> ~/.bashrc
-    echo "" >> ~/.bashrc
 }
 
 remove_boot_script()
